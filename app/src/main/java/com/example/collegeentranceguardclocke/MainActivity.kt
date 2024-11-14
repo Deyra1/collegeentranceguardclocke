@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         binding.openBtn.setOnClickListener {
             debugViewData(
                 1,
-                Common.sendMessage(this, 3, "1",time)
+                Common.sendMessage(this, 3, "1", time)
             )
         }
 
@@ -344,17 +344,25 @@ class MainActivity : AppCompatActivity() {
                                 if (registryFlag) {
                                     runOnUiThread {
                                         registryFlag = false
-                                        Common.user?.rid = receive?.frfid
-                                        if (dao.update(
-                                                Common.user!!,
-                                                Common.user?.uid.toString()
-                                            ) == -1
+                                        if (dao.query(
+                                                receive?.frfid.toString(),
+                                                "rid"
+                                            )?.size!! > 0
                                         ) {
                                             MToast.mToast(this, "已有该ID")
-                                        }
-                                        runOnUiThread {
-                                            binding.RFIDText.text =
-                                                if (Common.user?.rid != null && Common.user?.rid != "") Common.user?.rid else "未注册"
+                                        } else {
+                                            Common.user?.rid = receive?.frfid
+                                            if (dao.update(
+                                                    Common.user!!,
+                                                    Common.user?.uid.toString()
+                                                ) == -1
+                                            ) {
+                                                MToast.mToast(this, "修改失败")
+                                            }
+                                            runOnUiThread {
+                                                binding.RFIDText.text =
+                                                    if (Common.user?.rid != null && Common.user?.rid != "") Common.user?.rid else "未注册"
+                                            }
                                         }
                                         dialog.dismiss()
                                     }
