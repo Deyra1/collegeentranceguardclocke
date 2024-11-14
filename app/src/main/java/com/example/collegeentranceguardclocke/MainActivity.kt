@@ -419,7 +419,7 @@ class MainActivity : AppCompatActivity() {
                 view.inputNameEdit.setText(Common.user?.name)
                 view.inputPasswordEdit.setText(Common.user?.password)
                 view.sexSpinner.setSelection(if (Common.user?.sex == "男") 0 else 1)
-                view.roleSpinner.visibility = View.GONE
+                view.roleLayout.visibility = View.GONE
                 view.confirmButton.setOnClickListener {
                     if (verifyData(view)) {
                         val name = view.inputNameEdit.text.toString()

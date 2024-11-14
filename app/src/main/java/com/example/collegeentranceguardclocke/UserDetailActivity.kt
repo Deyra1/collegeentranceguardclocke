@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.example.collegeentranceguardclocke.adapter.UserListViewAdapter
@@ -228,6 +229,11 @@ class UserDetailActivity : AppCompatActivity() {
             Log.e("数据解析", e.message.toString())
             MToast.mToast(this, "数据解析失败")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {

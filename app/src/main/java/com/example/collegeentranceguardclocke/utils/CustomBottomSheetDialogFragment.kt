@@ -60,6 +60,7 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
                     binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
                     binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
                     list = dao.query(id.toString(), "0", "StateAndId")
+                    updateListUI(list)
                 }
 
                 binding.inButton.setOnClickListener {
@@ -68,18 +69,9 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
                     binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
                     binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
                     list = dao.query(id.toString(), "1", "StateAndId")
+                    updateListUI(list)
                 }
-                if (list != null) {
-                    if (list!!.size > 0) {
-                        binding.settingList.adapter = HistoryListViewAdapter(
-                            requireContext(),
-                            list!!
-                        )
-                    } else {
-                        dismiss()
-                        MToast.mToast(requireContext(), "还没有数据")
-                    }
-                }
+                updateListUI(list)
             }
 
             else -> { //
@@ -103,6 +95,20 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
         }
 
         return binding.root
+    }
+
+    private fun updateListUI(list: MutableList<Any>?) {
+        if (list != null) {
+            if (list.size > 0) {
+                binding.settingList.adapter = HistoryListViewAdapter(
+                    requireContext(),
+                    list
+                )
+            } else {
+                dismiss()
+                MToast.mToast(requireContext(), "还没有数据")
+            }
+        }
     }
 
     /**

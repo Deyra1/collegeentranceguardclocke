@@ -26,6 +26,10 @@
                     android:id="@+id/roleText"
                     android:layout_weight="1"
                     android:text="wait" />
+            </TableRow>
+
+            <TableRow android:layout_margin="5dp">
+
 
                 <TextView android:text="姓名:" />
 
@@ -35,7 +39,6 @@
                     android:text="wait" />
             </TableRow>
 
-
             <TableRow android:layout_margin="5dp">
 
                 <TextView android:text="出入类型：" />
@@ -44,6 +47,11 @@
                     android:id="@+id/stateText"
                     android:layout_weight="1"
                     android:text="wait" />
+
+            </TableRow>
+
+            <TableRow android:layout_margin="5dp">
+
 
                 <TextView android:text="出入时间：" />
 

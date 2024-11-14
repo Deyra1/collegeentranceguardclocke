@@ -58,7 +58,8 @@
 
             <TableRow
                 android:layout_margin="5dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:id="@+id/roleLayout">
 
                 <TextView android:text="职位:" />
 
