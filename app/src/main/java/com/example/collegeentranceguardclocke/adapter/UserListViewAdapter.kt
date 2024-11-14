@@ -48,10 +48,12 @@ class UserListViewAdapter(private val context: Context, private val list: Mutabl
     private fun initViews(binding: ListUserItemBinding, index: Int) {
         val user = list[index] as User
         binding.nameText.text = user.name
+        binding.accountText.text = user.account
         binding.createTimeText.text = user.createDateTime
         binding.roleText.text = if (user.per == 2) "教师" else "学生"
         binding.sexText.text = user.sex
         binding.stateText.text = if (user.state == 1) "在校" else "离校"
+        binding.pwdText.text = user.pwd.toString()
         binding.deleteButton.setOnClickListener {
             if (user.fid != -1) {
                 Common.sendMessage(context, 4, user.fid.toString())

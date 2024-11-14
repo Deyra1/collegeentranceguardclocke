@@ -99,9 +99,9 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        binding.openPassword.setOnClickListener {
-            MToast.mToast(this, "重置密码")
-        }
+//        binding.openPassword.setOnClickListener {
+//            MToast.mToast(this, "重置密码")
+//        }
     }
 
     /**

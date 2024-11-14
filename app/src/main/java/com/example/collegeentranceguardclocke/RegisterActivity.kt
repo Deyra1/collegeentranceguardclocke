@@ -157,7 +157,8 @@ class RegisterActivity : AppCompatActivity() {
             password = password,
             state = 0,
             sex = sex,
-            per = role
+            per = role,
+            pwd = Common.randomCipher().toInt()
         )
 
         dao.insert(user)

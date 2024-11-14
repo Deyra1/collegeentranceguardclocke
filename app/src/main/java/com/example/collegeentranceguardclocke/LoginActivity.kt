@@ -36,51 +36,52 @@ class LoginActivity : AppCompatActivity() {
      * @brief 配置mqtt连接参数并进行连接
      */
     private fun mqttConfig() {
-        if (Common.mqttHelper != null) Common.mqttHelper!!.disconnect()
-        // 配置mqtt参数
-        Common.mqttHelper = MQTTHelper(
-            this,
-            Common.URL,
-            Common.DRIVER_ID,
-            Common.DRIVER_NAME,
-            Common.DRIVER_PASSWORD,
-            true,
-            30,
-            30
-        )
-        try {
-            // 尝试连接mqtt服务器
-            Common.mqttHelper!!.connect(Common.RECEIVE_TOPIC, 1, true, object : MqttCallback {
-                override fun connectionLost(cause: Throwable?) {
-                    // 连接中断或丢失时触发
-                }
+        if (Common.mqttHelper == null) {
+            // 配置mqtt参数
+            Common.mqttHelper = MQTTHelper(
+                this,
+                Common.URL,
+                Common.DRIVER_ID,
+                Common.DRIVER_NAME,
+                Common.DRIVER_PASSWORD,
+                true,
+                30,
+                30
+            )
+            try {
+                // 尝试连接mqtt服务器
+                Common.mqttHelper!!.connect(Common.RECEIVE_TOPIC, 1, true, object : MqttCallback {
+                    override fun connectionLost(cause: Throwable?) {
+                        // 连接中断或丢失时触发
+                    }
 
-                //接受到消息时触发
-                override fun messageArrived(topic: String?, message: MqttMessage?) {
-                    LogUtils.eTag(
-                        "接收到消息-未解码",
-                        if (message!!.payload != null) String(message.payload) else ""
-                    )
+                    //接受到消息时触发
+                    override fun messageArrived(topic: String?, message: MqttMessage?) {
+                        LogUtils.eTag(
+                            "接收到消息-未解码",
+                            if (message!!.payload != null) String(message.payload) else ""
+                        )
 
-                    val receive = message.toString()
-                    //数据转换
-                    val data: Receive = Gson().fromJson(receive, Receive::class.java)
-                    LogUtils.eTag(
-                        "接收到消息-解码", if (message.payload != null) data else ""
-                    )
-                    EventBus.getDefault().post(data)
-                }
+                        val receive = message.toString()
+                        //数据转换
+                        val data: Receive = Gson().fromJson(receive, Receive::class.java)
+                        LogUtils.eTag(
+                            "接收到消息-解码", if (message.payload != null) data else ""
+                        )
+                        EventBus.getDefault().post(data)
+                    }
 
-                // 消息发送完成时触发
-                override fun deliveryComplete(token: IMqttDeliveryToken?) {
+                    // 消息发送完成时触发
+                    override fun deliveryComplete(token: IMqttDeliveryToken?) {
 
-                }
+                    }
 
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e("mqttConfig()", e.message.toString())
-            MToast.mToast(this, "连接时发生错误")
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("mqttConfig()", e.message.toString())
+                MToast.mToast(this, "连接时发生错误")
+            }
         }
     }
 

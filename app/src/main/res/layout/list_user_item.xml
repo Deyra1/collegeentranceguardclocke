@@ -32,6 +32,19 @@
             android:layout_margin="5dp"
             android:gravity="center">
 
+            <TextView android:text="账号:" />
+
+
+            <TextView
+                android:id="@+id/accountText"
+                android:layout_weight="1"
+                android:text="wait" />
+        </TableRow>
+
+        <TableRow
+            android:layout_margin="5dp"
+            android:gravity="center">
+
             <TextView android:text="性别:" />
 
 
@@ -50,6 +63,19 @@
 
             <TextView
                 android:id="@+id/roleText"
+                android:layout_weight="1"
+                android:text="wait" />
+        </TableRow>
+
+        <TableRow
+            android:layout_margin="5dp"
+            android:gravity="center">
+
+            <TextView android:text="开锁密码:" />
+
+
+            <TextView
+                android:id="@+id/pwdText"
                 android:layout_weight="1"
                 android:text="wait" />
         </TableRow>

@@ -30,12 +30,14 @@ object Common {
     var user: User? = null
     var registryFlag = false
     var receive: Receive? = null
+
     /***
      * 随机生成四位数密码
      */
     fun randomCipher(): String {
         return (1000..9999).random().toString()
     }
+
     /***
      * @brief 包装发送函数，只有建立了连接才发送消息
      */
@@ -67,12 +69,15 @@ object Common {
                     5 -> {
                         send.heart = data[0].toInt()
                     }
-                    7->{
+
+                    7 -> {
                         send.door_time = data[0].toInt()
                     }
                 }
                 val result = Gson().toJson(send)
-                mqttHelper!!.publish(PUSH_TOPIC, result, 1)
+                for (i in 0 until 3) {
+                    mqttHelper!!.publish(PUSH_TOPIC, result, 1)
+                }
                 result
             } catch (e: Exception) {
                 e.printStackTrace()
