@@ -183,4 +183,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
+
+
 }

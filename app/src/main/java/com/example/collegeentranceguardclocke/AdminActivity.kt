@@ -84,8 +84,10 @@ class AdminActivity : AppCompatActivity() {
                         if ((input.matches(Regex("\\d+")) && input.toInt() > 0 && input.toInt() < 100)) {
                             editor.putString("openTime", input)
                             editor.commit()
+
                             MToast.mToast(this, "修改成功")
                             time = input
+                            Common.sendMessage(this, 7, time)
                             alertDialog.dismiss()
                         } else {
                             MToast.mToast(this, "输入的时间不符合要求")
