@@ -51,10 +51,18 @@ class HistoryListViewAdapter(
     private fun initView(binding: HistoryListItemBinding, index: Int) {
         val history = listData[index] as History
         val u = dao.query(history.uid.toString())?.get(0) as User
-        binding.roleText.text = if (u.per == 2) "教师" else "学生"
+        val userRoleText = when (u.per) {
+            1 -> "管理员"
+            2 -> "自动化学院"
+            3 -> "通信学院"
+            4 -> "人工智能学院"
+            5 -> "传媒学院"
+            else -> "未知角色"
+        }
+        binding.roleText.text = userRoleText
         binding.nameText.text = u.name
         binding.openTime.text = history.createDateTime
-        binding.stateText.text = if (history.state == 1) "进校" else "离校"
+        binding.stateText.text = if (history.state == 1) "进宿舍" else "离开宿舍"
     }
 
     class ViewHolder(var binding: HistoryListItemBinding)

@@ -50,9 +50,16 @@ class UserListViewAdapter(private val context: Context, private val list: Mutabl
         binding.nameText.text = user.name
         binding.accountText.text = user.account
         binding.createTimeText.text = user.createDateTime
-        binding.roleText.text = if (user.per == 2) "教师" else "学生"
+        binding.roleText.text = when (user.per) {
+            1 -> "管理员"
+            2 -> "自动化学院"
+            3 -> "通信学院"
+            4 -> "人工智能学院"
+            5 -> "传媒学院"
+            else -> "未知角色"
+        }
         binding.sexText.text = user.sex
-        binding.stateText.text = if (user.state == 1) "在校" else "离校"
+        binding.stateText.text = if (user.state == 1) "在寝室" else "离开寝室"
         binding.pwdText.text = user.pwd.toString()
         binding.deleteButton.setOnClickListener {
             if (user.fid != -1) {

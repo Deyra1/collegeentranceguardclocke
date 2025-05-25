@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="primary">#FF9BC8</color>
+    <color name="primary_variant">#7CB9E8</color>
+    <color name="secondary">#B6D0E2</color>
+    <color name="background">#FFE4E1</color>
+    <color name="surface">#FFF0F5</color>
     <color name="black">#FF000000</color>
     <color name="weihei">#181818</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bg">#FF70A7F9</color>
+    <color name="bg">#FFB6C1</color>
 
     <color name="shape1">#FF018786</color>
     <color name="shape2">#FF03DAC5</color>
@@ -29,9 +29,9 @@
     <color name="data_pr">#0a7b14</color>
     <color name="data_pi">#898b0a</color>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF9BC8</color>
+    <color name="colorPrimaryDark">#7CB9E8</color>
+    <color name="colorAccent">#B6D0E2</color>
 
 
     <color name="snow">#fffafa</color><!--雪白色 -->

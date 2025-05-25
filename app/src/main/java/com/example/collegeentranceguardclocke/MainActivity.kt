@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             binding.faceIDText.text = "未注册"
         }
 
-        if (Common.user?.pwd != 0) {
+        if (Common.user?.pwd != 0 && Common.user?.pwd != null) {
             binding.openPassword.text = Common.user?.pwd.toString()
         } else {
             val pwd = randomCipher()
@@ -83,8 +83,22 @@ class MainActivity : AppCompatActivity() {
 
         binding.openPassword.text = Common.user?.pwd.toString()
         binding.nameText.text = Common.user?.name.toString()
-        binding.roleText.text = if (Common.user?.per == 2) "教师" else "学生"
-        binding.sexText.text = Common.user?.sex.toString()
+        val currentUserPer = Common.user?.per
+        val roleDescription = when (currentUserPer) {
+            1 -> "管理员"
+            2 -> "自动化学院"
+            3 -> "通信学院"
+            4 -> "人工智能学院"
+            5 -> "传媒学院"
+            else -> {
+                if (Common.user == null) {
+                    "用户未登录"
+                } else {
+                    "未知角色"
+                }
+            }
+        }
+        binding.roleText.text = roleDescription
     }
 
 
@@ -158,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
                         break
@@ -173,7 +187,7 @@ class MainActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
                         break
@@ -196,7 +210,7 @@ class MainActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
                         break
@@ -440,7 +454,7 @@ class MainActivity : AppCompatActivity() {
                         MToast.mToast(this, "修改成功")
                         binding.openPassword.text = Common.user?.pwd.toString()
                         binding.nameText.text = Common.user?.name.toString()
-                        binding.sexText.text = Common.user?.sex.toString()
+                        //binding.sexText.text = Common.user?.sex.toString()
                         dialog.dismiss()
                     }
                 }

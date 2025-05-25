@@ -127,7 +127,7 @@ class AdminActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
                         dao.update(da,da.uid.toString())
                         hdao.insert(h)
                         break
@@ -157,7 +157,7 @@ class AdminActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在寝室状态
                         dao.update(da,da.uid.toString())
                         hdao.insert(h)
                         break

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AdminActivity">
+    tools:context=".UserDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -21,7 +21,7 @@
             android:fitsSystemWindows="true"
             android:paddingBottom="20dp"
             app:layout_scrollFlags="exitUntilCollapsed"
-            app:title="人员管理"
+            app:title="学生管理"
             app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.Toolbar
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:gravity="center">
+                    android:gravity="center_vertical">
 
                     <EditText
                         android:id="@+id/searchText"
@@ -69,14 +69,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="输入姓名（为空则刷新）"
+                        android:hint="输入姓名"
+                        android:inputType="textPersonName"
                         android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/searchButton"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/search" />
+                        android:src="@mipmap/search"
+                        android:contentDescription="搜索按钮"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -92,15 +94,16 @@
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
                     android:divider="#00B22222"
-                    android:dividerHeight="15dp" />
+                    android:dividerHeight="15dp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/nullDataView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="暂无数据"
-                    android:textSize="30sp"
+                    android:text="暂无学生数据"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </FrameLayout>

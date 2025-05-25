@@ -16,16 +16,14 @@ object Common {
     const val PORT = "1883" // mqtt服务器端口号
     const val SERVER_ADDRESS = "iot-06z00axdhgfk24n.mqtt.iothub.aliyuncs.com"// mqtt 服务器地址
     const val URL = "tcp://$SERVER_ADDRESS:$PORT" // mqtt连接地址
-    const val RECEIVE_TOPIC = "/broadcast/h9sjluRDoei/test2" // 接收消息订阅的主题 - 下位机发送消息的主题
-    const val PUSH_TOPIC = "/broadcast/h9sjluRDoei/test1" // 推送消息的主题 - 下位机接收消息的主题
+    //const val URL = "k2a95upm1Oj.iot-as-mqtt.cn-shanghai.aliyuncs.com:1883" // mqtt连接地址
+    const val RECEIVE_TOPIC = "/broadcast/k2a95upm1Oj/test2" // 接收消息订阅的主题 - 下位机发送消息的主题
+    const val PUSH_TOPIC = "/broadcast/k2a95upm1Oj/test1" // 推送消息的主题 - 下位机接收消息的主题
     const val DRIVER_ID =
-        "h9sjluRDoei.smartapp|securemode=2,signmethod=hmacsha256,timestamp=1730190604768|" // mqtt id
-    const val DRIVER_NAME = "smartapp&h9sjluRDoei" // mqtt 用户名 （oneNET中为产品ID）
+        "k2a95upm1Oj.android_app|securemode=2,signmethod=hmacsha256,timestamp=1747999519458|" // mqtt id
+    const val DRIVER_NAME = "android_app&k2a95upm1Oj" // mqtt 用户名
     const val DRIVER_PASSWORD =
-        "3654ea83f830d2a0d6d6e3f7a21021fcdc96c55ab0a84e16ef5b2c440a81ad99" // mqtt 鉴权或者密码
-    const val DRIVER_ID_HARDWARE = "1211070683" // mqtt 硬件id
-    const val API_KEY = "HPtgv9tFnmoLlt=suai8ogSEwPg=" // （oneNET） APIkey
-    var HARDWARE_ONLINE = false // 硬件在线标志位
+        "1f9bab7a6334a468f86d0df003b2afe233533979bd4d8bd5fae57be2a91146ba" // mqtt 鉴权或者密码
     var mqttHelper: MQTTHelper? = null // mqtt 连接服务函数
     var user: User? = null
     var registryFlag = false

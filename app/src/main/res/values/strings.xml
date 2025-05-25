@@ -1,16 +1,18 @@
 <resources>
-    <string name="app_name">学院门禁打卡系统</string>
+    <string name="app_name">宿舍门禁管理</string>
     <string name="history">历史记录</string>
     <string name="update">修改信息</string>
     <string name="setDebug">调试</string>
     <string name="set">设置</string>
-    <string name="typeInFace">录入人脸(已录入则为修改)</string>
-    <string name="typeInRfid">录入RF卡(已录入则为修改)</string>
+    <string name="typeInFace">录入/修改人脸</string>
+    <string name="typeInRfid">录入/修改RFID卡</string>
     <string name="loginOut">退出登录</string>
 
     <string-array name="role">
-        <item name="student">学生</item>
-        <item name="teacher">教师</item>
+        <item name="automation">自动化学院</item>
+        <item name="communication">通信学院</item>
+        <item name="ai">人工智能学院</item>
+        <item name="media">传媒学院</item>
     </string-array>
 
     <string-array name="sex">

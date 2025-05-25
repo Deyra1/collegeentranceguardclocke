@@ -8,7 +8,7 @@ import com.example.collegeentranceguardclocke.utils.TimeCycle
 
 class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
-        const val DB_NAME = "my.db"
+        const val DB_NAME = "iacs.db"
         const val DB_VERSION = 1
     }
 
@@ -17,7 +17,7 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         var sql = "create table `history` (" +
                 "`hid` INTEGER primary key autoincrement," +
                 "`uid` INTEGER," +
-                "`state` INTEGER," + // 1为进校 0为出校
+                "`state` INTEGER," + // 1为进宿舍 0为出宿舍
                 "`createDateTime` VARCHAR(255))"
         p0?.execSQL(sql) //执行sql语句，
         sql = "create table `user` (" +
@@ -25,11 +25,11 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
                 "`account` VARCHAR(20)," + //账号
                 "`password` VARCHAR(20)," + //密码
                 "`name` VARCHAR(20)," + //姓名
-                "`per` INTEGER," + //职位 1 管理员  2 教师 3 学生
+                "`per` INTEGER," + //职位/学院 1 管理员 2 自动化 3 通信 4 人工智能 5 传媒
                 "`pwd` INTEGER," + // 开门密码
-                "`state` INTEGER," + // 在校状态 1为在校 0为离校
+                "`state` INTEGER," + // 在寝室状态 1为在寝室 0为离开寝室
                 "`sex` VARCHAR(20)," + // 性别
-                "`rid` VARCHAR(255)," + // rf 的id
+                "`rid` VARCHAR(255)," + // RFID 的id
                 "`fid` INTEGER," + // 人脸id
                 "`createDateTime` VARCHAR(255))"
         p0?.execSQL(sql) //执行sql语句，
@@ -41,7 +41,6 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         values.put("fid", -1)
         values.put("pwd", -1)
         values.put("createDateTime", TimeCycle.getDateTime())
-//        p0?.insert("user", null, values)
     }
 
     // 更新数据库时触发

@@ -68,13 +68,13 @@
 
             <TableRow android:layout_margin="5dp">
 
-                <TextView android:text="用户名" />
+                <TextView android:text="账号" />
 
                 <EditText
                     android:id="@+id/inputNameEdit"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:hint="请输入用户名"
+                    android:hint="请输入账号"
                     android:textSize="15sp" />
             </TableRow>
 

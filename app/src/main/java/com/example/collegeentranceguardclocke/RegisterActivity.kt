@@ -127,7 +127,14 @@ class RegisterActivity : AppCompatActivity() {
         val name = binding.inputNameEdit.text.toString()
         val password = binding.inputPasswordEdit.text.toString()
         val sex = binding.sexSpinner.selectedItem.toString()
-        val role = if (binding.roleSpinner.selectedItem.toString() == "学生") 3 else 2
+        val role = when (binding.roleSpinner.selectedItem.toString()) {
+            "管理员" -> 1
+            "自动化学院" -> 2
+            "通信学院" -> 3
+            "人工智能学院" -> 4
+            "传媒学院" -> 5
+            else -> 2
+        }
         if (account.isEmpty()) {
             MToast.mToast(this, "账号不能为空")
             return

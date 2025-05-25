@@ -19,7 +19,7 @@
             android:layout_margin="5dp"
             android:gravity="center">
 
-            <TextView android:text="名称:" />
+            <TextView android:text="姓名:" />
 
 
             <TextView
@@ -45,6 +45,19 @@
             android:layout_margin="5dp"
             android:gravity="center">
 
+            <TextView android:text="学院:" />
+
+
+            <TextView
+                android:id="@+id/roleText"
+                android:layout_weight="1"
+                android:text="wait" />
+        </TableRow>
+
+        <TableRow
+            android:layout_margin="5dp"
+            android:gravity="center">
+
             <TextView android:text="性别:" />
 
 
@@ -58,20 +71,7 @@
             android:layout_margin="5dp"
             android:gravity="center">
 
-            <TextView android:text="职称:" />
-
-
-            <TextView
-                android:id="@+id/roleText"
-                android:layout_weight="1"
-                android:text="wait" />
-        </TableRow>
-
-        <TableRow
-            android:layout_margin="5dp"
-            android:gravity="center">
-
-            <TextView android:text="开锁密码:" />
+            <TextView android:text="开锁\n密码:" />
 
 
             <TextView
@@ -97,7 +97,7 @@
             android:layout_margin="5dp"
             android:gravity="center">
 
-            <TextView android:text="注册时间:" />
+            <TextView android:text="注册\n时间:" />
 
 
             <TextView

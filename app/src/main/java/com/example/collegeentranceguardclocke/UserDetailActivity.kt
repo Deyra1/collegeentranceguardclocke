@@ -115,14 +115,33 @@ class UserDetailActivity : AppCompatActivity() {
         val dialog = builder.create()
         view.inputNameEdit.setText(t.name)
         view.inputPasswordEdit.setText(t.password)
-        view.sexSpinner.setSelection(if (t.sex == "男") 0 else 1)
-        view.roleSpinner.setSelection(if (t.per == 2) 1 else 0)
+        //view.sexSpinner.setSelection(if (t.sex == "男") 0 else 1)
+        val selectionIndex = when (t.per) {
+            2 -> 0  // 自动化学院 对应 Spinner 选项索引 0
+            3 -> 1  // 通信学院 对应 Spinner 选项索引 1
+            4 -> 2  // 人工智能学院 对应 Spinner 选项索引 2
+            5 -> 3  // 传媒学院 对应 Spinner 选项索引 3
+            1 -> 4  // 管理员 对应 Spinner 选项索引 4 (假设管理员是最后一个选项)
+            else -> 0 // 默认选项，例如选中第一个"自动化学院"，或者你可以设置为一个表示“请选择”的项的索引
+        }
+        view.roleSpinner.setSelection(selectionIndex)
         view.confirmButton.setOnClickListener {
             if (verifyData(view)) {
                 val name = view.inputNameEdit.text.toString()
                 val password = view.inputPasswordEdit.text.toString()
                 val sex = view.sexSpinner.selectedItem.toString()
-                val role = if (view.roleSpinner.selectedItem.toString() == "学生") 3 else 2
+                val selectedRoleText = view.roleSpinner.selectedItem.toString() // 获取 Spinner 中选中的文本
+                val role = when (selectedRoleText) {
+                    "自动化学院" -> 2
+                    "通信学院" -> 3
+                    "人工智能学院" -> 4
+                    "传媒学院" -> 5
+                    "管理员" -> 1
+                    else -> {
+                        Log.w("RoleSelection", "未知的角色选项: $selectedRoleText，将使用默认值或标记为错误。")
+                        1
+                    }
+                }
                 t.name = name
                 t.password = password
                 t.sex = sex
@@ -187,7 +206,7 @@ class UserDetailActivity : AppCompatActivity() {
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
-                        da.state = if (da.state == 0) 1 else 0 // 修改在校状态
+                        da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
                         break

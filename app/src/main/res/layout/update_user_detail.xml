@@ -61,7 +61,7 @@
                 android:gravity="center"
                 android:id="@+id/roleLayout">
 
-                <TextView android:text="职位:" />
+                <TextView android:text="学院:" />
 
                 <Spinner
                     android:id="@+id/roleSpinner"
