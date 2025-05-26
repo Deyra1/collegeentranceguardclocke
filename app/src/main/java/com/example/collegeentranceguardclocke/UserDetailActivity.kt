@@ -96,6 +96,29 @@ class UserDetailActivity : AppCompatActivity() {
                         supportFragmentManager,
                         customBottomSheetDialogFragment.tag
                     )
+                }.setPositiveButton("删除用户") { _, _ ->
+                    val userToDelete = list?.get(p2) as User
+                    AlertDialog.Builder(this@UserDetailActivity)
+                        .setTitle("确认删除")
+                        .setMessage("确定要删除用户 ${userToDelete.name} 吗？")
+                        .setPositiveButton("确定") { _, _ ->
+                            val deleteResult = dao.delete(userToDelete.uid.toString())
+                            if (deleteResult == 0) {
+                                MToast.mToast(this@UserDetailActivity, "删除成功")
+                                // 刷新列表
+                                list = dao.query()
+                                binding.assetsList.adapter = UserListViewAdapter(this@UserDetailActivity, list!!)
+                                if (list == null || list!!.size <= 0) {
+                                    isShowListView(false)
+                                }
+                            } else {
+                                MToast.mToast(this@UserDetailActivity, "删除失败")
+                            }
+                        }
+                        .setNegativeButton("取消") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
                 }
             builder.create().show()
 
@@ -122,7 +145,7 @@ class UserDetailActivity : AppCompatActivity() {
             4 -> 2  // 人工智能学院 对应 Spinner 选项索引 2
             5 -> 3  // 传媒学院 对应 Spinner 选项索引 3
             1 -> 4  // 管理员 对应 Spinner 选项索引 4 (假设管理员是最后一个选项)
-            else -> 0 // 默认选项，例如选中第一个"自动化学院"，或者你可以设置为一个表示“请选择”的项的索引
+            else -> 0 // 默认选项，例如选中第一个"自动化学院"，或者你可以设置为一个表示"请选择"的项的索引
         }
         view.roleSpinner.setSelection(selectionIndex)
         view.confirmButton.setOnClickListener {

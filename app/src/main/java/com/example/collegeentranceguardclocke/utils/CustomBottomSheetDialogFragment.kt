@@ -61,42 +61,6 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
                     Log.d("HistoryViewDebug", "All history item - uid: ${history.uid}, state: ${history.state}, time: ${history.createDateTime}")
                 }
 
-                binding.outButton.setOnClickListener {
-                    binding.outButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20F) //设置字体大小
-                    binding.inButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F) //设置字体大小
-                    binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
-                    binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
-                    // Filter all history for 'out' state (assuming state 0 is 'out') and current user or uid 0
-                    val filteredList = allHistoryList?.filter { history ->
-                        history as History
-                        (history.uid == id || history.uid == 0) && history.state == 0
-                    }?.toMutableList()
-                    Log.d("HistoryViewDebug", "Filtered history for OUT. Count: ${filteredList?.size}")
-                    filteredList?.forEach { history ->
-                        history as History
-                        Log.d("HistoryViewDebug", "OUT filtered item - uid: ${history.uid}, state: ${history.state}")
-                    }
-                    updateListUI(filteredList)
-                }
-
-                binding.inButton.setOnClickListener {
-                    binding.inButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20F) //设置字体大小
-                    binding.outButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F) //设置字体大小
-                    binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
-                    binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
-                    // Filter all history for 'in' state (assuming state 1 is 'in') and current user or uid 0
-                    val filteredList = allHistoryList?.filter { history ->
-                        history as History
-                        (history.uid == id || history.uid == 0) && history.state == 1
-                    }?.toMutableList()
-                    Log.d("HistoryViewDebug", "Filtered history for IN. Count: ${filteredList?.size}")
-                    filteredList?.forEach { history ->
-                        history as History
-                        Log.d("HistoryViewDebug", "IN filtered item - uid: ${history.uid}, state: ${history.state}")
-                    }
-                    updateListUI(filteredList)
-                }
-
                 // Initially show all history for the current user and all generic events (uid 0)
                 val initialList = allHistoryList?.filter { history ->
                      history as History
