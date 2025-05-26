@@ -20,7 +20,15 @@
 
             <TableRow android:layout_margin="5dp">
 
-                <TextView android:text="学院:" />
+                <TextView 
+                    android:layout_width="40dp"
+                    android:gravity="start"
+                    android:text="学        院" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:text="：" />
 
                 <TextView
                     android:id="@+id/roleText"
@@ -30,35 +38,82 @@
 
             <TableRow android:layout_margin="5dp">
 
+                <TextView 
+                    android:layout_width="40dp"
+                    android:gravity="start"
+                    android:text="姓        名" />
 
-                <TextView android:text="姓名:" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:text="：" />
 
                 <TextView
                     android:id="@+id/nameText"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:text="wait" />
             </TableRow>
 
             <TableRow android:layout_margin="5dp">
 
-                <TextView android:text="出入类型：" />
+                <TextView 
+                    android:layout_width="60dp"
+                    android:gravity="start"
+                    android:text="出入类型" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:text="：" />
 
                 <TextView
                     android:id="@+id/stateText"
                     android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:text="wait" />
 
             </TableRow>
 
             <TableRow android:layout_margin="5dp">
 
+                <TextView
+                    android:layout_width="29dp"
+                    android:gravity="start"
+                    android:text="出入时间" />
 
-                <TextView android:text="出入时间：" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:text="：" />
 
                 <TextView
                     android:id="@+id/openTime"
-                    android:layout_weight="3"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:text="wait" />
+            </TableRow>
+
+            <TableRow android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:text="方        式" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:text="：" />
+                <TextView
+                    android:id="@+id/methodText"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="未知" />
             </TableRow>
 
         </TableLayout>

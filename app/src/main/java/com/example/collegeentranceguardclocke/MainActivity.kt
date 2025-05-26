@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import com.blankj.utilcode.util.LogUtils
 import com.example.collegeentranceguardclocke.databinding.ActivityMainBinding
 import com.example.collegeentranceguardclocke.databinding.UpdateUserDetailBinding
 import com.example.collegeentranceguardclocke.db.HistoryDao
@@ -26,7 +27,12 @@ import com.example.collegeentranceguardclocke.utils.CustomBottomSheetDialogFragm
 import com.example.collegeentranceguardclocke.utils.CustomDialog
 import com.example.collegeentranceguardclocke.utils.MToast
 import com.example.collegeentranceguardclocke.utils.TimeCycle
+import com.google.gson.Gson
 import com.gyf.immersionbar.ImmersionBar
+import com.itfitness.mqttlibrary.MQTTHelper
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
+import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -52,7 +58,61 @@ class MainActivity : AppCompatActivity() {
         dao = UserDao(this)
         hdao = HistoryDao(this)
         initViews()
+        mqttConfig() // Call mqttConfig here
         EventBus.getDefault().register(this)
+    }
+
+    /****
+     * @brief 配置mqtt连接参数并进行连接
+     */
+    private fun mqttConfig() {
+        if (Common.mqttHelper == null) {
+            // 配置mqtt参数
+            Common.mqttHelper = MQTTHelper(
+                this,
+                Common.URL,
+                Common.DRIVER_ID,
+                Common.DRIVER_NAME,
+                Common.DRIVER_PASSWORD,
+                true,
+                30,
+                30
+            )
+            try {
+                // 尝试连接mqtt服务器
+                Common.mqttHelper!!.connect(Common.RECEIVE_TOPIC, 1, true, object : MqttCallback {
+                    override fun connectionLost(cause: Throwable?) {
+                        // 连接中断或丢失时触发
+                    }
+
+                    //接受到消息时触发
+                    override fun messageArrived(topic: String?, message: MqttMessage?) {
+                        LogUtils.eTag(
+                            "接收到消息-未解码",
+                            if (message!!.payload != null) String(message.payload) else ""
+                        )
+
+                        val receive = message.toString()
+                        //数据转换
+                        val data: Receive = Gson().fromJson(receive, Receive::class.java)
+                        LogUtils.eTag(
+                            "接收到消息-解码", if (message.payload != null) data else ""
+                        )
+                        EventBus.getDefault().post(data) // Post event here
+                    }
+
+                    // 消息发送完成时触发
+                    override fun deliveryComplete(token: IMqttDeliveryToken?) {
+
+                    }
+
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.e("mqttConfig()", e.message.toString())
+                MToast.mToast(this, "连接时发生错误")
+            }
+        }
     }
 
     private fun initViews() {
@@ -111,6 +171,18 @@ class MainActivity : AppCompatActivity() {
                 1,
                 Common.sendMessage(this, 3, "1", time)
             )
+            // Record history for remote unlock triggered by the current user
+            val currentUser = Common.user
+            if (currentUser != null) {
+                val h = History()
+                h.uid = currentUser.uid
+                // Assuming remote unlock is recorded as '进宿舍' (state = 1)
+                // You might need to adjust the state based on your requirements
+                h.state = 1 // Example: record as 'in'
+                h.method = "远程开锁" // Set unlock method to Remote Unlock
+                hdao.insert(h)
+                Log.d("HistoryRecord", "Remote unlock history inserted for user: ${currentUser.name}")
+            }
         }
 
 //        binding.openPassword.setOnClickListener {
@@ -155,68 +227,91 @@ class MainActivity : AppCompatActivity() {
         debugViewData(2, data.toString())
         try {
             receive = data
+            // Log the received data fields
+            Log.d("ReceiveData", "Received data: face_id=${data.face_id}, rfid=${data.rfid}, pwd=${data.pwd}, door=${data.door}, door_time=${data.door_time}, fid=${data.fid}, frfid=${data.frfid}, did=${data.did}")
+
             if (isADDFlag) {
                 isADDFlag = false
                 if (data.fid != null && data.fid != "0" || data.frfid != null && data.frfid != "0" || data.did != null) {
                     registryFlag = true
+                    // Log when registryFlag is set
+                    Log.d("ReceiveData", "Registry flag set based on received data.")
                     return
                 }
             }
             receive = null
             val list = dao.query()!!
+            // Log the size of the user list for query
+            Log.d("ReceiveData", "User list size for query: ${list.size}")
+
             if (data.face_id != null && data.face_id != "0") {
+                Log.d("ReceiveData", "Processing face_id: ${data.face_id}")
                 for (d in list) {
                     val da = d as User
                     if (da.fid.toString() == data.face_id) {
+                        Log.d("ReceiveData", "User found by face_id: ${da.name}")
                         Common.sendMessage(this, 3, "1", time)
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
                         da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
+                        h.method = "人脸" // Set unlock method
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
+                        Log.d("ReceiveData", "History inserted for face_id user: ${da.name}")
                         break
                     }
                 }
             }
             if (data.rfid != null && data.rfid != "0") {
+                Log.d("ReceiveData", "Processing rfid: ${data.rfid}")
                 for (d in list) {
                     val da = d as User
                     if (da.rid == data.rfid) {
+                        Log.d("ReceiveData", "User found by rfid: ${da.name}")
                         Common.sendMessage(this, 3, "1", time)
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
                         da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
+                        h.method = "RFID" // Set unlock method
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
+                        Log.d("ReceiveData", "History inserted for rfid user: ${da.name}")
                         break
                     }
                 }
             }
 
             if (data.door_time != null) {
+                Log.d("ReceiveData", "Processing door_time: ${data.door_time}")
                 if (time != data.door_time) {
                     time = data.door_time!!
                     editor.putString("openTime", data.door_time)
                     editor.commit()
+                    Log.d("ReceiveData", "Door time updated to: ${time}")
                 }
             }
             if (data.pwd != null) {
+                Log.d("ReceiveData", "Processing pwd: ${data.pwd}")
                 for (d in list) {
                     val da = d as User
                     if (da.pwd.toString() == data.pwd) {
+                        Log.d("ReceiveData", "User found by pwd: ${da.name}")
                         Common.sendMessage(this, 3, "1", time)
                         val h = History()
                         h.uid = da.uid
                         h.state = if (da.state == 0) 1 else 0 //记录开门类型
                         da.state = if (da.state == 0) 1 else 0 // 修改在宿舍状态
+                        h.method = "密码" // Set unlock method to Password
                         dao.update(da, da.uid.toString())
                         hdao.insert(h)
+                        Log.d("ReceiveData", "History inserted for pwd user: ${da.name}")
                         break
                     }
                 }
             }
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("数据解析", e.message.toString())

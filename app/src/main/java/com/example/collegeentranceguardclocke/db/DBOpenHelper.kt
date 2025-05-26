@@ -9,7 +9,7 @@ import com.example.collegeentranceguardclocke.utils.TimeCycle
 class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         const val DB_NAME = "iacs.db"
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
     }
 
     // 创建数据库时触发
@@ -44,7 +44,9 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
     }
 
     // 更新数据库时触发
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-
+    override fun onUpgrade(p0: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        if (oldVersion < 2) {
+            p0?.execSQL("ALTER TABLE `history` ADD COLUMN `method` VARCHAR(255)")
+        }
     }
 }

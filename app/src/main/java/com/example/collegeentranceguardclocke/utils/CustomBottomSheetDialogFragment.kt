@@ -53,14 +53,30 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
         when (type) {
             0 -> { // 查询记录
                 val dao = HistoryDao(requireContext())
-                var list: MutableList<Any>? = dao.query(id.toString(), "0", "StateAndId")
+                // Query all history initially
+                var allHistoryList: MutableList<Any>? = dao.query() // Call the parameterless query
+                Log.d("HistoryViewDebug", "Queried all history. Count: ${allHistoryList?.size}")
+                allHistoryList?.forEach { history ->
+                    history as History
+                    Log.d("HistoryViewDebug", "All history item - uid: ${history.uid}, state: ${history.state}, time: ${history.createDateTime}")
+                }
+
                 binding.outButton.setOnClickListener {
                     binding.outButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20F) //设置字体大小
                     binding.inButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F) //设置字体大小
                     binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
                     binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
-                    list = dao.query(id.toString(), "0", "StateAndId")
-                    updateListUI(list)
+                    // Filter all history for 'out' state (assuming state 0 is 'out') and current user or uid 0
+                    val filteredList = allHistoryList?.filter { history ->
+                        history as History
+                        (history.uid == id || history.uid == 0) && history.state == 0
+                    }?.toMutableList()
+                    Log.d("HistoryViewDebug", "Filtered history for OUT. Count: ${filteredList?.size}")
+                    filteredList?.forEach { history ->
+                        history as History
+                        Log.d("HistoryViewDebug", "OUT filtered item - uid: ${history.uid}, state: ${history.state}")
+                    }
+                    updateListUI(filteredList)
                 }
 
                 binding.inButton.setOnClickListener {
@@ -68,10 +84,32 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
                     binding.outButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F) //设置字体大小
                     binding.inButton.typeface = Typeface.defaultFromStyle(Typeface.BOLD) // 加粗
                     binding.outButton.typeface = Typeface.defaultFromStyle(Typeface.NORMAL) // 取消加粗
-                    list = dao.query(id.toString(), "1", "StateAndId")
-                    updateListUI(list)
+                    // Filter all history for 'in' state (assuming state 1 is 'in') and current user or uid 0
+                    val filteredList = allHistoryList?.filter { history ->
+                        history as History
+                        (history.uid == id || history.uid == 0) && history.state == 1
+                    }?.toMutableList()
+                    Log.d("HistoryViewDebug", "Filtered history for IN. Count: ${filteredList?.size}")
+                    filteredList?.forEach { history ->
+                        history as History
+                        Log.d("HistoryViewDebug", "IN filtered item - uid: ${history.uid}, state: ${history.state}")
+                    }
+                    updateListUI(filteredList)
                 }
-                updateListUI(list)
+
+                // Initially show all history for the current user and all generic events (uid 0)
+                val initialList = allHistoryList?.filter { history ->
+                     history as History
+                     history.uid == id || history.uid == 0
+                }?.toMutableList()
+                Log.d("HistoryViewDebug", "Initial history list for UI. Count: ${initialList?.size}")
+                initialList?.forEach { history ->
+                    history as History
+                    Log.d("HistoryViewDebug", "Initial list item - uid: ${history.uid}, state: ${history.state}")
+                }
+                // Sort by date/time in descending order for initial display
+                initialList?.sortByDescending { (it as History).createDateTime }
+                updateListUI(initialList)
             }
 
             else -> { //
@@ -105,9 +143,14 @@ class CustomBottomSheetDialogFragment(private val type: Int, private val id: Int
                     list
                 )
             } else {
+                Log.d("HistoryDebug", "History list is empty or null. Size: ${list?.size}")
                 dismiss()
                 MToast.mToast(requireContext(), "还没有数据")
             }
+        } else {
+            Log.d("HistoryDebug", "History list is null.")
+            dismiss()
+            MToast.mToast(requireContext(), "还没有数据")
         }
     }
 

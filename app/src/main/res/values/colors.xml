@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FF9BC8</color>
+    <color name="primary">#3264ED</color>
     <color name="primary_variant">#7CB9E8</color>
     <color name="secondary">#B6D0E2</color>
     <color name="background">#FFE4E1</color>
@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="weihei">#181818</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bg">#FFB6C1</color>
+    <color name="bg">#3264ED</color>
 
     <color name="shape1">#FF018786</color>
     <color name="shape2">#FF03DAC5</color>
@@ -29,10 +29,17 @@
     <color name="data_pr">#0a7b14</color>
     <color name="data_pi">#898b0a</color>
 
-    <color name="colorPrimary">#FF9BC8</color>
+    <color name="colorPrimary">#3264ED</color>
     <color name="colorPrimaryDark">#7CB9E8</color>
     <color name="colorAccent">#B6D0E2</color>
-
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="text_input_default_color">#CCCCCC</color>
+    <color name="text_input_focused_color">#3264ED</color>
+    <color name="text_input_entered_color">#202020</color>
 
     <color name="snow">#fffafa</color><!--雪白色 -->
     <color name="floralwhite">#fffaf0</color><!--花白色 -->

@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape"
+            android:background="@drawable/login_bg"
             android:fitsSystemWindows="true"
             android:paddingBottom="20dp"
             app:layout_scrollFlags="exitUntilCollapsed"
@@ -77,8 +77,10 @@
                         android:id="@+id/searchButton"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@mipmap/search"
-                        android:contentDescription="搜索按钮"/>
+                        android:src="@drawable/ic_search_vector"
+                        android:tint="@color/colorPrimary"
+                        android:contentDescription="搜索按钮"
+                        />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

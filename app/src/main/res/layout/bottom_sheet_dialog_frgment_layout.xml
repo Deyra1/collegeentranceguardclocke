@@ -36,7 +36,7 @@
                 android:id="@+id/outButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="出校记录"
+                android:text="出寝记录"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -55,7 +55,7 @@
                 android:id="@+id/inButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="进校记录"
+                android:text="入寝记录"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>

@@ -11,13 +11,6 @@ import com.example.collegeentranceguardclocke.entity.Receive
 import com.example.collegeentranceguardclocke.entity.User
 import com.example.collegeentranceguardclocke.utils.Common
 import com.example.collegeentranceguardclocke.utils.MToast
-import com.google.gson.Gson
-import com.gyf.immersionbar.ImmersionBar
-import com.itfitness.mqttlibrary.MQTTHelper
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttCallback
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.greenrobot.eventbus.EventBus
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -29,68 +22,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         dao = UserDao(this)
         initViews()
-        mqttConfig()
     }
-
-    /****
-     * @brief 配置mqtt连接参数并进行连接
-     */
-    private fun mqttConfig() {
-        if (Common.mqttHelper == null) {
-            // 配置mqtt参数
-            Common.mqttHelper = MQTTHelper(
-                this,
-                Common.URL,
-                Common.DRIVER_ID,
-                Common.DRIVER_NAME,
-                Common.DRIVER_PASSWORD,
-                true,
-                30,
-                30
-            )
-            try {
-                // 尝试连接mqtt服务器
-                Common.mqttHelper!!.connect(Common.RECEIVE_TOPIC, 1, true, object : MqttCallback {
-                    override fun connectionLost(cause: Throwable?) {
-                        // 连接中断或丢失时触发
-                    }
-
-                    //接受到消息时触发
-                    override fun messageArrived(topic: String?, message: MqttMessage?) {
-                        LogUtils.eTag(
-                            "接收到消息-未解码",
-                            if (message!!.payload != null) String(message.payload) else ""
-                        )
-
-                        val receive = message.toString()
-                        //数据转换
-                        val data: Receive = Gson().fromJson(receive, Receive::class.java)
-                        LogUtils.eTag(
-                            "接收到消息-解码", if (message.payload != null) data else ""
-                        )
-                        EventBus.getDefault().post(data)
-                    }
-
-                    // 消息发送完成时触发
-                    override fun deliveryComplete(token: IMqttDeliveryToken?) {
-
-                    }
-
-                })
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("mqttConfig()", e.message.toString())
-                MToast.mToast(this, "连接时发生错误")
-            }
-        }
-    }
-
 
     private fun initViews() {
-        setSupportActionBar(binding.toolbar)
-        binding.toolbarLayout.title = "登录"
-        ImmersionBar.with(this).init()
-
         binding.loginBtn.setOnClickListener { verifyData() }
 
         /***
@@ -132,15 +66,6 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("role", user.per)
                 startActivity(intent)
-//            when (user.per) {
-//                1 -> {
-//                    startActivity(Intent(this, AdminActivity::class.java))
-//                }
-//
-//                else -> { // 普通用户
-//
-//                }
-//            }
                 finish()
             } else {
                 MToast.mToast(this, "账号或密码错误")

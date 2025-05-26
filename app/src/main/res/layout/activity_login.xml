@@ -7,94 +7,149 @@
     tools:context=".LoginActivity">
 
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="0dp"
+        android:layout_height="317dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="317dp" 
+        android:background="@drawable/background_gradient" 
+        app:layout_constraintTop_toTopOf="@+id/backgroundImageView"
+        app:layout_constraintStart_toStartOf="@+id/backgroundImageView"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundImageView" />
+
+
+    <TextView
+        android:id="@+id/helloTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Hello!"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0">
+        app:layout_constraintVertical_bias="0.638" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
-        android:maxWidth="400dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="欢迎来到宿舍智慧门禁系统"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/helloTextView" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:contentPadding="10dp"
+        android:padding="24dp"
+        android:background="@drawable/rounded_white_background"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundImageView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TableLayout
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账号登录"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:boxStrokeColor="@color/text_input_colors"
+            app:hintTextColor="@color/text_input_colors"
+            style="@style/CustomOutlinedBox">
 
-            <TextView
-                android:id="@+id/skipRegisterBtn"
-                android:layout_width="wrap_content"
-                android:gravity="center|right"
-                android:visibility="gone"
-                android:text="点击注册"
-                android:textColor="@color/firebrick"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputNameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_input_entered_color"
+                android:textCursorDrawable="@null"
+                android:hint="请输入账号" />
 
-            <TableRow android:layout_margin="5dp">
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView android:text="账号" />
 
-                <EditText
-                    android:id="@+id/inputNameEdit"
-                    android:layout_marginStart="5dp"
-                    android:layout_weight="1"
-                    android:hint="请输入账号"
-                    android:textSize="15sp" />
-            </TableRow>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleDrawable="@drawable/custom_password_toggle_selector"
+            app:boxStrokeColor="@color/text_input_colors"
+            app:hintTextColor="@color/text_input_colors"
+            app:passwordToggleTint="@color/text_input_colors"
+            style="@style/CustomOutlinedBox">
 
-            <TableRow android:layout_margin="5dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputPasswordEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入密码"
+                android:textColor="@color/text_input_entered_color"
+                android:textCursorDrawable="@null"
+                android:inputType="textPassword" />
 
-                <TextView android:text="密码" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/inputPasswordEdit"
-                    android:layout_marginStart="5dp"
-                    android:layout_weight="1"
-                    android:hint="请输入密码"
-                    android:inputType="textPassword"
-                    android:textSize="15sp" />
-            </TableRow>
 
-            <Button
-                android:id="@+id/loginBtn"
-                android:text="登录" />
-        </TableLayout>
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="登录"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:background="@drawable/rounded_button" />
 
-    </androidx.cardview.widget.CardView>
+          <TextView
+            android:id="@+id/skipRegisterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!-- TODO: Create drawable resources:
+     - @drawable/background_gradient (for the gradient overlay)
+     - @drawable/rounded_white_background (for the white login form background)
+     - @drawable/rounded_button (for the login button background)
+     - Ensure @drawable/login_bg and @drawable/show_password exist and are correct
+     - Adjust colors and sizes (sp/dp) as needed to match design precisely
+-->

@@ -21,6 +21,7 @@ class HistoryDao(private val context: Context) : BaseDao {
             values.put("uid", box.uid)
             values.put("state", box.state)
             values.put("createDateTime", TimeCycle.getDateTime())
+            values.put("method", box.method)
             db.insert("history", null, values)
             db.close()
             1
@@ -84,7 +85,8 @@ class HistoryDao(private val context: Context) : BaseDao {
                     cursor.getInt(cursor.getColumnIndexOrThrow("hid")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("uid")),
                     cursor.getInt(cursor.getColumnIndexOrThrow("state")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("createDateTime"))
+                    cursor.getString(cursor.getColumnIndexOrThrow("createDateTime")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("method"))
                 )
                 result.add(box)
             }

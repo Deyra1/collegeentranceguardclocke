@@ -50,19 +50,41 @@ class HistoryListViewAdapter(
 
     private fun initView(binding: HistoryListItemBinding, index: Int) {
         val history = listData[index] as History
-        val u = dao.query(history.uid.toString())?.get(0) as User
-        val userRoleText = when (u.per) {
-            1 -> "管理员"
-            2 -> "自动化学院"
-            3 -> "通信学院"
-            4 -> "人工智能学院"
-            5 -> "传媒学院"
-            else -> "未知角色"
+
+        // Handle generic events with uid 0
+        if (history.uid == 0) {
+            binding.roleText.text = "通用事件"
+            binding.nameText.text = "-" // Or some other placeholder
+        } else {
+            // Query user for specific uid
+            val userList = dao.query(history.uid.toString())
+            val u = if (userList != null && userList.isNotEmpty()) {
+                userList[0] as User
+            } else {
+                null // Or a default User object indicating not found
+            }
+
+            if (u != null) {
+                val userRoleText = when (u.per) {
+                    1 -> "管理员"
+                    2 -> "自动化学院"
+                    3 -> "通信学院"
+                    4 -> "人工智能学院"
+                    5 -> "传媒学院"
+                    else -> "未知角色"
+                }
+                binding.roleText.text = userRoleText
+                binding.nameText.text = u.name
+            } else {
+                // Handle case where user is not found for a non-zero uid
+                binding.roleText.text = "用户不存在"
+                binding.nameText.text = "-"
+            }
         }
-        binding.roleText.text = userRoleText
-        binding.nameText.text = u.name
+
         binding.openTime.text = history.createDateTime
         binding.stateText.text = if (history.state == 1) "进宿舍" else "离开宿舍"
+        binding.methodText.text = history.method ?: "未知"
     }
 
     class ViewHolder(var binding: HistoryListItemBinding)
